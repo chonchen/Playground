@@ -22,6 +22,10 @@ public class PriorityQueue<E extends Comparable<E>>{
 		return min;
 	}
 	
+	public boolean isEmpty(){
+		return heap.size() < 2;
+	}
+	
 	private void bubbleUp(){
 		
 		int child = heap.size() - 1;
