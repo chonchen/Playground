@@ -27,7 +27,7 @@ public class PriorityQueue<E extends Comparable<E>>{
 		int child = heap.size() - 1;
 		int parent = findParent(child);
 		
-		while (child > 1 && heap.get(child).compareTo(heap.get(parent)) < 0){
+		while (parent != 0 && heap.get(child).compareTo(heap.get(parent)) < 0){
 			swap(heap, child, parent);
 			child = parent;
 			parent = findParent(parent);
@@ -39,7 +39,7 @@ public class PriorityQueue<E extends Comparable<E>>{
 		int parent = 1;
 		int child = findSmallerChild(parent);
 		
-		while (parent * 2 < heap.size() && heap.get(parent).compareTo(heap.get(child)) > 0){
+		while (child != 0 && heap.get(parent).compareTo(heap.get(child)) > 0){
 			swap(heap, parent, child);
 			parent = child;
 			child = findSmallerChild(child);
@@ -48,20 +48,20 @@ public class PriorityQueue<E extends Comparable<E>>{
 	
 	private int findParent(int index){
 		if (index < 1 || index > heap.size() - 1)
-			throw new IllegalArgumentException();
+			return 0;
 		
 		return (int) Math.floor(index / 2);
 	}
 	
 	private int findSmallerChild(int index){
 		if (index < 1 || index > heap.size() - 1)
-			return index;
+			return 0;
 		
 		int child1 = index * 2;
 		int child2 = index * 2 + 1;
 		
 		if (child1 > heap.size() - 1){
-			return index;
+			return 0;
 		}
 		else if (child2 > heap.size() - 1){
 			return child1;
@@ -78,10 +78,6 @@ public class PriorityQueue<E extends Comparable<E>>{
 		heap.set(index2, temp);
 	}
 	
-	public List<E> getHeap(){
-		return heap;
-	}
-	
 	public static void main(String[] args){
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
 		
@@ -89,12 +85,7 @@ public class PriorityQueue<E extends Comparable<E>>{
 		pq.insert(8);
 		pq.insert(100);
 		pq.insert(3);
-		/**
-		List<Integer> h = pq.getHeap();
-		for (Integer i: h){
-			System.out.println(i);
-		}
-		**/
+		
 		System.out.println(pq.extractMin());
 		System.out.println(pq.extractMin());
 		System.out.println(pq.extractMin());
