@@ -25,43 +25,47 @@ public class PriorityQueue<E extends Comparable<E>>{
 	private void bubbleUp(){
 		
 		int child = heap.size() - 1;
-		int parent = findParent(child);
 		
-		while (parent != 0 && heap.get(child).compareTo(heap.get(parent)) < 0){
-			swap(heap, child, parent);
-			child = parent;
-			parent = findParent(parent);
+		while (child > 1){
+			int parent = findParent(child);
+			if (heap.get(child).compareTo(heap.get(parent)) < 0){
+				swap(heap, child, parent);
+				child = parent;
+			}
+			else break;
 		}
 	}
 	
 	private void bubbleDown(){
 		
 		int parent = 1;
-		int child = findSmallerChild(parent);
 		
-		while (child != 0 && heap.get(parent).compareTo(heap.get(child)) > 0){
-			swap(heap, parent, child);
-			parent = child;
-			child = findSmallerChild(child);
+		while (2 * parent < heap.size()){
+			int child = findSmallerChild(parent);
+			if (heap.get(parent).compareTo(heap.get(child)) > 0){
+				swap(heap, parent, child);
+				parent = child;
+			}
+			else break;
 		}		
 	}
 	
 	private int findParent(int index){
 		if (index < 1 || index > heap.size() - 1)
-			return 0;
+			throw new IllegalArgumentException();
 		
 		return (int) Math.floor(index / 2);
 	}
 	
 	private int findSmallerChild(int index){
 		if (index < 1 || index > heap.size() - 1)
-			return 0;
+			throw new IllegalArgumentException();
 		
 		int child1 = index * 2;
 		int child2 = index * 2 + 1;
 		
 		if (child1 > heap.size() - 1){
-			return 0;
+			throw new IllegalArgumentException();
 		}
 		else if (child2 > heap.size() - 1){
 			return child1;
